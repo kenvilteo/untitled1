@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://childListView.title"
+      focusComponent="childrenDataGrid">
+    <data readOnly="true">
+        <collection id="childrenDc"
+                    class="com.company.untitled1.entity.Child">
+            <fetchPlan extends="_base"/>
+            <loader id="childrenDl">
+                <query>
+                    <![CDATA[select e from Child e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="childrenDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="childrenDataGrid.create"/>
+            <button id="editBtn" action="childrenDataGrid.edit"/>
+            <button id="readBtn" action="childrenDataGrid.read"/>
+            <button id="removeBtn" action="childrenDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="childrenDl"/>
+        </hbox>
+        <dataGrid id="childrenDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="childrenDc">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="read" type="list_read"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+                <column property="age"/>
+                <column property="parent"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

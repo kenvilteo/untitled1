@@ -1,0 +1,8 @@
+/* Define your styles here */
+vaadin-grid.onboarding-steps::part(overdue-step) {
+    color: red;
+}
+
+.user-picture {
+    object-fit: contain;
+}

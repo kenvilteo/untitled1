@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://dogListView.title"
+      focusComponent="dogsDataGrid">
+    <data readOnly="true">
+        <collection id="dogsDc"
+                    class="com.company.untitled1.entity.Dog">
+            <fetchPlan extends="_base">
+                <property name="department" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="dogsDl">
+                <query>
+                    <![CDATA[select e from Dog e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="dogsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="addBtn" action="dogsDataGrid.add"/>
+            <button id="createBtn" action="dogsDataGrid.create"/>
+            <button id="editBtn" action="dogsDataGrid.edit"/>
+            <button id="excludeBtn" action="dogsDataGrid.exclude"/>
+            <button id="readBtn" action="dogsDataGrid.read"/>
+            <button id="removeBtn" action="dogsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="dogsDl"/>
+        </hbox>
+        <dataGrid id="dogsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="dogsDc">
+            <actions>
+                <action id="add" type="list_add"/>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="exclude" type="list_exclude"/>
+                <action id="read" type="list_read"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="namePet"/>
+                <column property="typePet"/>
+                <column property="department"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

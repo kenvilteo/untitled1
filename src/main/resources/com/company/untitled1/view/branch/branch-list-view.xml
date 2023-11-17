@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://branchListView.title"
+      focusComponent="branchesDataGrid">
+    <data readOnly="true">
+        <collection id="branchesDc"
+                    class="com.company.untitled1.entity.Branch">
+            <fetchPlan extends="_base">
+                <property name="parentBranch" fetchPlan="_base"/>
+                <property name="tradeBy" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="branchesDl">
+                <query>
+                    <![CDATA[select e from Branch e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="branchesDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="branchesDataGrid.create"/>
+            <button id="editBtn" action="branchesDataGrid.edit"/>
+            <button id="readBtn" action="branchesDataGrid.read"/>
+            <button id="removeBtn" action="branchesDataGrid.remove"/>
+            <button id="testBtn" action="branchesDataGrid.someAction" />
+            <simplePagination id="pagination" dataLoader="branchesDl"/>
+        </hbox>
+        <dataGrid id="branchesDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="branchesDc">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="read" type="list_read"/>
+                <action id="remove" type="list_remove"/>
+                <action id="someAction" text="lol"/>
+            </actions>
+            <columns>
+                <column property="id" visible="false"/>
+                <column property="bankCode" autoWidth="true"/>
+                <column property="branchType" autoWidth="true"/>
+                <column property="branchCode" autoWidth="true"/>
+                <column property="branchName" autoWidth="true"/>
+                <column property="parentBranch" autoWidth="true"/>
+                <column property="sectorCode" autoWidth="true"/>
+                <column property="cityCode" autoWidth="true"/>
+                <column property="address" autoWidth="true"/>
+                <column property="phone" autoWidth="true"/>
+                <column property="fax" autoWidth="true"/>
+                <column property="taxNo" autoWidth="true"/>
+                <column property="citadCode" autoWidth="true"/>
+                <column property="isDirect" autoWidth="true"/>
+                <column property="tradeBy" autoWidth="true"/>
+                <column property="status" autoWidth="true"/>
+                <column property="createdBy" autoWidth="true"/>
+                <column property="createdDate" autoWidth="true"/>
+                <column property="lastModifiedBy" autoWidth="true"/>
+                <column property="lastModifiedDate" autoWidth="true"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

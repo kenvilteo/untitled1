@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://gdSectorDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="gdSectorDc"
+                  class="com.company.untitled1.entity.GdSector">
+            <fetchPlan extends="_base"/>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="gdSectorDc">
+            <textField id="sectorCodeField" property="sectorCode" readOnly="true">
+                <validators>
+                    <regexp regexp="^[a-zA-Z0-9_.-]*$"/>
+                </validators>
+            </textField>
+            <textField id="sectorNameField" property="sectorName"/>
+            <textField id="descriptionField" property="description"/>
+            <textField id="idField" property="id" visible="false"/>
+            <textField id="deletedField" property="deleted" visible="false"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

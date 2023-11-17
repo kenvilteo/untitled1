@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://branchDetailView.title"
+      focusComponent="form">
+    <data>
+        <collection id="gdSectorsDc" class="com.company.untitled1.entity.GdSector">
+            <fetchPlan extends="_base"/>
+            <loader id="gdSectorsDl">
+                <query>
+                    <![CDATA[select e from GdSector e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="branchesDc" class="com.company.untitled1.entity.Branch">
+            <fetchPlan extends="_base"/>
+            <loader id="branchesDl">
+                <query>
+                    <![CDATA[select b from Branch b
+                            where (b.branchType = :branchTypeInput)
+                            and (b.bankCode = :bankCodeInput)
+                            ]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="tradeByDc" class="com.company.untitled1.entity.Branch">
+            <fetchPlan extends="_base"/>
+            <loader id="tradeByDl">
+                <query>
+                    <![CDATA[select e from Branch e
+                    where e.isDirect = 'D'  ]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="branchDc"
+                  class="com.company.untitled1.entity.Branch">
+            <fetchPlan extends="_base">
+                <property name="parentBranch" fetchPlan="_base"/>
+                <property name="tradeBy" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="branchDc">
+            <textField id="idField" property="id" visible="false"/>
+            <comboBox id="bankCodeField" property="bankCode"/>
+            <comboBox id="branchTypeField" property="branchType"/>
+            <textField id="branchCodeField" property="branchCode" readOnly="true">
+                <validators>
+                    <regexp regexp="^[a-zA-Z0-9_.-]*$"/>
+                </validators>
+            </textField>
+            <textField id="branchNameField" property="branchName"/>
+            <entityComboBox id="parentBranchField" property="parentBranch" itemsContainer="branchesDc"
+                            allowCustomValue="false"/>
+<!--            <comboBox id="sectorCodeField" property="sectorCode"/>-->
+            <entityComboBox id="sectorCodeField" property="sectorCode" itemsContainer="gdSectorsDc"
+                            allowCustomValue="false"/>
+
+            <comboBox id="cityCodeField" property="cityCode"/>
+            <textField id="addressField" property="address"/>
+            <textField id="phoneField" property="phone"/>
+            <textField id="faxField" property="fax"/>
+            <textField id="taxNoField" property="taxNo"/>
+            <textField id="citadCodeField" property="citadCode"/>
+            <comboBox id="isDirectField" property="isDirect">
+            </comboBox>
+<!--            <entityPicker id="tradeByField" property="tradeBy" visible="false">-->
+<!--                <actions>-->
+<!--                    <action id="entityLookup" type="entity_lookup"/>-->
+<!--                    <action id="entityClear" type="entity_clear"/>-->
+<!--                </actions>-->
+<!--                <validators>-->
+<!--                    <notNull/>-->
+<!--                    ></validators>-->
+<!--            </entityPicker>-->
+            <entityComboBox id="tradeByField" property="tradeBy" itemsContainer="tradeByDc"
+                            allowCustomValue="false" visible="false">
+                <validators>
+                    <notNull/>
+                </validators>
+            </entityComboBox>
+            <comboBox id="statusField" property="status"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
