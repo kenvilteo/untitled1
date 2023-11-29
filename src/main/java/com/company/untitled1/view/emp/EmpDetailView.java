@@ -2,6 +2,7 @@ package com.company.untitled1.view.emp;
 
 import com.company.untitled1.entity.Child;
 import com.company.untitled1.entity.Emp;
+import com.company.untitled1.entity.GdSector;
 import com.company.untitled1.view.branch.BranchDetailView;
 import com.company.untitled1.view.main.MainView;
 import com.vaadin.flow.component.AbstractField;
@@ -53,6 +54,10 @@ public class EmpDetailView extends StandardDetailView<Emp> {
     private CollectionLoader<Child> childrenDl;
     @Autowired
     private DataManager dataManager;
+    @ViewComponent
+    private DataGrid<GdSector> sectorDataGrid;
+    @ViewComponent
+    private CollectionContainer<GdSector> gdSectorsDc;
 
     @Subscribe
     public void onBeforeShow(final BeforeShowEvent event) {
@@ -85,6 +90,25 @@ public class EmpDetailView extends StandardDetailView<Emp> {
         //test
 //        printOrderProperties();
     }
+
+    @Subscribe("sectorDataGrid.create")
+    protected void onSectorDataGridCreate(ActionPerformedEvent event) {
+        if (sectorDataGrid.getEditor().isOpen()) {
+            showNotification("Close the editor before creating a new entity");
+        } else {
+            GdSector newObj = metadata.create(GdSector.class);
+
+//            Long res = Long.valueOf(idField.getValue().replace(",", ""));
+
+//            newChild.setParent(res);
+            gdSectorsDc.getMutableItems().add(newObj);
+            sectorDataGrid.select(newObj);
+            sectorDataGrid.getEditor().editItem(newObj);
+        }
+        //test
+//        printOrderProperties();
+    }
+
 
     @Subscribe("editorBufferedCheckbox")
     protected void onEditorBufferedCheckboxValueChange(AbstractField.ComponentValueChangeEvent<JmixCheckbox, Boolean> event) {

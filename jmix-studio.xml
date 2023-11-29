@@ -40,6 +40,9 @@
       </entry>
     </moduleSettings>
   </component>
+  <component name="JmixLiquibaseChangesConfig">
+    <exclude-change idName="gd_sector#emp_id" tagName="dropColumn" />
+  </component>
   <component name="JmixPluginProjectSettings">
     <option name="savedDbProperties">
       <list>

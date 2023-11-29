@@ -17,6 +17,14 @@
             <fetchPlan extends="_base"/>
             <loader/>
         </instance>
+        <collection id="gdSectorsDc" class="com.company.untitled1.entity.GdSector">
+            <fetchPlan   extends="_base"/>
+            <loader id="gdSectorsDl">
+                <query>
+                    <![CDATA[select e from GdSector e where e.emp.id = :idEmp]]>
+                </query>
+            </loader>
+        </collection>
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
@@ -32,15 +40,14 @@
             <comboBox id="sexField" property="sex"/>
             <textField id="departmentField" property="department"/>
             <textField id="idField" property="id" visible="true"/>
+
         </formLayout>
 
         <checkbox id="editorBufferedCheckbox" label="msg:///editorBufferedCheckbox.label"/>
-
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button id="createBtn" action="childrenDataGrid.create"/>
             <button id="removeBtn" action="childrenDataGrid.remove"/>
         </hbox>
-
         <dataGrid width="100%" id="childrenDataGrid" dataContainer="childrenDc">
             <actions>
                 <action id="create" type="list_create"/>
@@ -64,6 +71,38 @@
                 </editorActionsColumn>
             </columns>
         </dataGrid>
+
+        <!--                                GRID 2                              -->
+        <hbox id="buttonsPanel2" classNames="buttons-panel">
+            <button id="createBtn2" action="sectorDataGrid.create"/>
+            <button id="removeBtn2" action="sectorDataGrid.remove"/>
+        </hbox>
+        <dataGrid width="100%" id="sectorDataGrid" dataContainer="gdSectorsDc">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="read" type="list_read"/>
+                <action id="refresh" type="list_refresh"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="sectorCode" autoWidth="true" editable="true"/>
+                <column property="sectorName" autoWidth="true" editable="true"/>
+                <column property="description" autoWidth="true" editable="true"/>
+                <editorActionsColumn key="bufferedEditorColumn" visible="false">
+                    <editButton text="Edit" icon="PENCIL"/>
+                    <saveButton icon="CHECK" themeNames="success"/>
+                    <cancelButton icon="CLOSE" themeNames="error"/>
+                </editorActionsColumn>
+                <editorActionsColumn key="nonBufferedEditorColumn" visible="true">
+                    <editButton text="Edit" icon="PENCIL"/>
+                    <closeButton text="Close" icon="CLOSE"/>
+                </editorActionsColumn>
+            </columns>
+        </dataGrid>
+
+
+
 
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
